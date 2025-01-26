@@ -129,3 +129,18 @@ body {
 input {
   margin-bottom: 20px;
 }
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.8rem;
+}
+#footer a {
+  color: #590d80;
+  text-decoration: none;
+}
+#footer a:hover {
+  text-decoration: underline;
+}
