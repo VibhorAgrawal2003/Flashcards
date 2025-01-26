@@ -1,5 +1,4 @@
 let flashcards = [];
-let flowercards = [];
 let currentIndex = 0;
 let repeatQueue = [];
 let showingFront = true;
@@ -132,6 +131,13 @@ function loadFlashcards(collectionName) {
 function updateSidebar() {
   const sidebar = document.getElementById("sidebar");
   sidebar.innerHTML = "";
+
+  const defaultCollection = document.createElement("div");
+  defaultCollection.textContent = "flowercards";
+  defaultCollection.classList.add("collection-item");
+  defaultCollection.addEventListener("click", () => loadDefaultFile());
+  sidebar.appendChild(defaultCollection);
+
   for (let i = 0; i < localStorage.length; i++) {
     const collectionName = localStorage.key(i);
     const collectionItem = document.createElement("div");
