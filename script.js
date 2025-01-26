@@ -1,75 +1,157 @@
-let questions = [];
-let currentIndex = 1;
-const questionElement = document.getElementById("question");
-const optionsElement = document.getElementById("options");
-const answerElement = document.getElementById("answer");
-const card = document.getElementById("card");
-const cardLabel = document.getElementById("card-label");
-const qnumber = document.getElementById("qnumber");
+let flashcards = [];
+let flowercards = [];
+let currentIndex = 0;
+let repeatQueue = [];
+let showingFront = true;
+let isAnimating = false;
 
-// Load questions from JSON file
-fetch("questions.json")
-  .then(response => response.json())
-  .then(data => {
-    questions = data;
-    shuffleQuestions();
-    showQuestion();
-  })
-  .catch(error => console.error(error));
+const flashcardElement = document.getElementById("flashcard");
+const frontElement = flashcardElement.querySelector(".front");
+const backElement = flashcardElement.querySelector(".back");
+const fontSelect = document.getElementById("font-select");
+const sampleText = document.getElementById("sample-text");
 
+document.getElementById("upload").addEventListener("change", handleFileUpload);
+document.addEventListener("keydown", handleKeyDown);
+fontSelect.addEventListener("change", changeFontStyle);
+window.addEventListener('load', loadDefaultFile);
+window.addEventListener('load', updateSidebar);
 
-// Shuffle the questions
-function shuffleQuestions() {
-  for (let i = questions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [questions[i], questions[j]] = [questions[j], questions[i]];
-  }
+function changeFontStyle() {
+  const selectedFont = fontSelect.value;
+  document.querySelector(".front").style.fontFamily = selectedFont;
+  document.querySelector(".back").style.fontFamily = selectedFont;
 }
 
-// Shuffle the options
-function shuffleOptions(options) {
-  for (let i = options.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [options[i], options[j]] = [options[j], options[i]];
-  }
-}
+function loadDefaultFile() {
+  const defaultFilePath = 'sample/flowers.json';
 
-// Display the current question
-function showQuestion() {
-  if (currentIndex >= questions.length) {
-    return;
-  }
-
-  const question = questions[currentIndex];
-  questionElement.textContent = question.question;
-  qnumber.textContent = currentIndex;
-
-  optionsElement.innerHTML = "";
-  shuffleOptions(question.options);
-
-  for (const option of question.options) {
-    const optionElement = document.createElement("button");
-    optionElement.textContent = option;
-    optionElement.addEventListener("click", () => {
-      answerElement.textContent = question.answer;
-      card.classList.add("flipped");
+  fetch(defaultFilePath)
+    .then(response => response.json())
+    .then(data => {
+      flashcards = shuffle(data);
+      currentIndex = 0;
+      repeatQueue = [];
+      showCard();
+    })
+    .catch(err => {
+      alert("Failed to load the default file.");
+      console.error(err);
     });
-    optionsElement.appendChild(optionElement);
+}
+
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        flashcards = shuffle(data);
+        currentIndex = 0;
+        repeatQueue = [];
+        showCard();
+      } catch (err) {
+        alert("Invalid JSON file.");
+      }
+    };
+    reader.readAsText(file);
+  } else {
+    loadDefaultFile();
   }
-
-  answerElement.textContent = "";
-  card.classList.remove("flipped");
+  event.target.blur();
 }
 
-// Move to the next question
-function nextQuestion() {
-  currentIndex++;
-  showQuestion();
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
 
-// Listen for the spacebar key press
-document.addEventListener("keydown", (event) => {
+function showCard() {
+  if (currentIndex < flashcards.length) {
+    const card = flashcards[currentIndex];
+    frontElement.textContent = card.front;
+    backElement.textContent = card.back;
+    showingFront = true;
+    isAnimating = false;
+  } else {
+    alert("All cards reviewed!");
+    resetDeck();
+  }
+}
+
+function resetDeck() {
+  shuffledCards = [...flashcards].sort(() => Math.random() - 0.5);
+  currentIndex = 0;
+  flashcardElement.classList.remove("flipped");
+  showCard();
+}
+
+function handleKeyDown(event) {
+  if (isAnimating) return;
+
   if (event.code === "Space") {
-    nextQuestion();
+    if (showingFront) {
+      flipCard();
+    } else {
+      nextCard();
+    }
+  } else if (event.code === "KeyR") {
+    resetDeck();
   }
-});
+}
+
+function flipCard() {
+  flashcardElement.classList.add("flipped");
+  document.querySelector(".back").style.color = "black";
+  showingFront = false;
+}
+
+function nextCard() {
+  isAnimating = true;
+  currentIndex++;
+  flashcardElement.classList.remove("flipped");
+  document.querySelector(".back").style.color = "white";
+  setTimeout(300);
+  showCard();
+}
+
+function loadFlashcards(collectionName) {
+  const flashcardsData = localStorage.getItem(collectionName);
+  if (flashcardsData) {
+    const flashcardsArray = JSON.parse(flashcardsData);
+    flashcards = shuffle(flashcardsArray);
+    currentIndex = 0;
+    repeatQueue = [];
+    showCard();
+  } else {
+    alert("Collection not found.");
+  }
+}
+
+function updateSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  sidebar.innerHTML = "";
+  for (let i = 0; i < localStorage.length; i++) {
+    const collectionName = localStorage.key(i);
+    const collectionItem = document.createElement("div");
+    collectionItem.textContent = collectionName;
+    collectionItem.classList.add("collection-item");
+    collectionItem.addEventListener("click", () => loadFlashcards(collectionName));
+    sidebar.appendChild(collectionItem);
+  }
+}
+
+function saveFlashcards() {
+  const collectionName = prompt("Enter a name for your flashcards collection:");
+  if (collectionName) {
+    if (localStorage.getItem(collectionName)) {
+      alert("This collection already exists.");
+    } else {
+      const flashcardsData = JSON.stringify(flashcards);
+      localStorage.setItem(collectionName, flashcardsData);
+      alert("Flashcards collection saved!");
+      updateSidebar();
+    }
+  }
+}

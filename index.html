@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flashcards</title>
+  <title>Flashcard Viewer</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.svg" type="image/x-icon" />
 </head>
-
 <body>
-  <div id="card-container">
-    <div id="card">
-      <div id="front">
-        <p id="qnumber">1</p>
-        <h2 id="card-label">Question</h2>
-        <p id="question"></p>
-        <div id="options"></div>
-      </div>
-      <div id="back">
-        <h2 id="card-label">Answer</h2>
-        <p id="answer"></p>
-      </div>
-    </div>
+  <div id="options">
+    <div class="tooltip-container">
+      <span class="question-mark">?</span>
+      <span class="tooltip-text">Import a JSON file with objects for cards. Each card has two properties, 'front' and 'back', both storing string values.</span>
+    </div>    
+    <input type="file" id="upload" accept=".json" />
+    <select id="font-select">
+      <option value="Arial">Arial</option>
+      <option value="Courier New">Courier New</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Times New Roman">Times New Roman</option>
+      <option value="Verdana">Verdana</option>
+    </select>
   </div>
-  <script src="script.js"></script>
+  <div id="flashcard">
+    <div class="front"></div>
+    <div class="back"></div>
+  </div>
+  <div id="instructions">
+    Press SPACEBAR to flip/move to the next card. Press R to reset.
+  </div>
+  <div id="sidebar">
+    <!-- Collection names will be dynamically added here -->
+  </div>
+  <button onclick="saveFlashcards()">Save Flashcards</button>  
+  <script src="script.js" defer></script>
 </body>
-
 </html>

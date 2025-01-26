@@ -1,71 +1,131 @@
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  background-color: #f0f0f0;
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f5f5f5;
 }
-
-#card-container {
-  perspective: 1000px;
+#options {
+  padding: 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
-
-#card {
+#font-select, #upload {
+  height: 1.4rem;
+  margin: 0 10px;
+  font-size: 0.8rem;
+}
+.tooltip-container {
   position: relative;
-  width: 400px;
-  height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.question-mark {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.6rem;
+  text-align: center;
+  line-height: 1rem;
+}
+.tooltip-text {
+  visibility: hidden;
+  width: 14em;
+  background-color: black;
+  color: #fff;
+  font-size: 0.8rem;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  margin-left: -80px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+#flashcard {
+  width: 8em;
+  height: 12em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  cursor: pointer;
   transition: transform 0.6s;
   transform-style: preserve-3d;
 }
-
-#front, #back {
+#flashcard.flipped {
+  transform: rotateY(180deg);
+}
+#flashcard.fading {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.6s, transform 0.6s;
+}
+#flashcard div {
   position: absolute;
-  width: 100%;
-  height: 100%;
   backface-visibility: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  text-align: center;
 }
-
-#back {
+#flashcard .front {
+  font-weight: 100;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: small;
+  padding: 1em;
+}
+#flashcard .back {
   transform: rotateY(180deg);
+  font-weight: 200;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: small;
+  padding: 1em;
 }
-
-.flipped #front {
-  transform: rotateY(180deg);
+#instructions {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #666;
 }
-
-.flipped #back {
-  transform: rotateY(0deg);
-}
-
-#options {
-  width: 24em;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-}
-
-#options button {
-  text-align: left;
-  margin: 5px;
-  padding: 5px 10px;
-  background-color: #4CAF50;
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #333;
   color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 1em;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
-
-#options button:hover {
-  background-color: #45a049;
+.collection-item {
+  cursor: pointer;
+  padding: 10px 15px;
+  text-align: left;
+  cursor: pointer;
+  border-bottom: 1px solid #444;
+}
+.collection-item:hover {
+  background-color: #555;
+}
+input {
+  margin-bottom: 20px;
 }
