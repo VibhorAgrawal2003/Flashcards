@@ -6,39 +6,67 @@
   <title>Flowercards</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="favicon.png" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Inter:wght@100..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="options">
-    <div class="tooltip-container">
-      <span class="question-mark">?</span>
-      <span class="tooltip-text">Import a JSON file with objects for cards. Each card has two properties, 'front' and 'back', both storing string values.</span>
-    </div>    
-    <input type="file" id="upload" accept=".json" />
-    <select id="font-select">
-      <option value="Arial">Arial</option>
-      <option value="Courier New">Courier New</option>
-      <option value="Georgia">Georgia</option>
-      <option value="Times New Roman">Times New Roman</option>
-      <option value="Verdana">Verdana</option>
-    </select>
-  </div>
-  <div id="flashcard">
-    <div class="front"></div>
-    <div class="back"></div>
-  </div>
-  <div id="instructions">
-    Press SPACEBAR to flip/move to the next card. Press R to reset.
-  </div>
-  <div id="sidebar">
-    <!-- Collection names will be dynamically added here -->
-  </div>
-  <button onclick="saveFlashcards()">Save Flashcards</button>  
 
-  <footer id="footer">
-    <p>Check out the project on <a href="https://github.com/VibhorAgrawal2003/Flowercards" target="_blank" rel="noopener noreferrer">GitHub</a></p>
-  </footer>
+  <header>
+    <div class="heading">
+      <img src="favicon.png" width="28px" height="28px">
+      <h1>Flowercards</h1>
+    </div>
+    <div class="button-group">
+      <button class="fancy-button" style="background-color: #007bff;">Help</button>
+      <button class="fancy-button" style="background-color: #d834eb">Export</button>
+      <button onclick=saveFlashcards() class="fancy-button" style="background-color: #28a745;">Save</button>
+    </div>
+    <button class="fancy-button" style="background-color: #fc5dc5;">Themes</button>
+  </header>
+
+  <div class="page-content">
+    <main>
+      <div id="flashcard">
+        <div class="front"></div>
+        <div class="back"></div>
+      </div>
+    </main>
+
+    <aside class="left-panel">
+      <div class="tile" id="templates">
+        This is where we display the template.
+      </div>
+      <div class="tile" id="collections">
+        This is where we show saved collections.
+        <div id="saved-collections">
+          hi
+          <!-- Collection names will be dynamically added here -->
+        </div>
+      </div>
+    </aside>
   
+    <aside class="right-panel">
+      <div class="tile" id="customization">
+        This is where we customize cards.
+        <div id="options">
+          <input type="file" id="upload" accept=".json" />
+          <select id="font-select">
+            <option value="Arial">Arial</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Verdana">Verdana</option>
+          </select>
+        </div>
+      </div>
+    </aside>
 
-  <script src="script.js" defer></script>
+    <footer>
+      <p>Check out the project on <a href="https://github.com/VibhorAgrawal2003/Flowercards" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

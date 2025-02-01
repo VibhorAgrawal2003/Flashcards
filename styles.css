@@ -1,31 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
-  font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;  
   min-height: 100vh;
   margin: 0;
   background-color: #f5f5f5;
 }
-#options {
-  padding: 1em;
+header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2em;
+}
+main {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+aside {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  position: absolute;
+  bottom: 1em;
+}
+.left-panel {
+  left: 1em;
+}
+.right-panel {
+  right: 1em;
+}
+.heading {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+}
+.heading h1 {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+.button-group {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+.fancy-button {
+  padding: 0.8em 2em;
+  border-radius: 4px;
+  border-width: 0;
+  color: #fff;
+  cursor: pointer;
+}
+.fancy-button:hover {
+  filter: brightness(85%);
+}
+.page-content {
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+}
+#options {
+  display: block;
 }
 #font-select, #upload {
   height: 1.4rem;
   margin: 0 10px;
   font-size: 0.8rem;
-}
-.tooltip-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
 }
 .question-mark {
   display: inline-block;
@@ -37,26 +96,6 @@ body {
   font-size: 0.6rem;
   text-align: center;
   line-height: 1rem;
-}
-.tooltip-text {
-  visibility: hidden;
-  width: 14em;
-  background-color: black;
-  color: #fff;
-  font-size: 0.8rem;
-  text-align: center;
-  border-radius: 5px;
-  padding: 5px;
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  margin-left: -80px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.tooltip-container:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
 }
 #flashcard {
   width: 8em;
@@ -104,17 +143,26 @@ body {
   font-size: 0.9rem;
   color: #666;
 }
-#sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 250px;
-  height: 100%;
-  background-color: #590d80;
-  color: white;
+.tile {
   padding: 1em;
+  background-color: #fff;
+  color: #000;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   overflow-y: auto;
+}
+#templates {
+  width: 20em;
+  height: 12em;
+}
+#collections {
+  width: 20em;
+  height: 20em;
+}
+#customization {
+  width: 20em;
+  height: 33em;
 }
 .collection-item {
   cursor: pointer;
@@ -129,7 +177,7 @@ body {
 input {
   margin-bottom: 20px;
 }
-#footer {
+footer {
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -137,10 +185,10 @@ input {
   padding: 10px;
   font-size: 0.8rem;
 }
-#footer a {
+footer a {
   color: #590d80;
   text-decoration: none;
 }
-#footer a:hover {
+footer a:hover {
   text-decoration: underline;
 }

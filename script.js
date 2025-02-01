@@ -129,14 +129,14 @@ function loadFlashcards(collectionName) {
 }
 
 function updateSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  sidebar.innerHTML = "";
+  const saved_collections = document.getElementById("saved-collections");
+  saved_collections.innerHTML = "";
 
   const defaultCollection = document.createElement("div");
-  defaultCollection.textContent = "flowercards";
+  defaultCollection.textContent = "sample collection";
   defaultCollection.classList.add("collection-item");
   defaultCollection.addEventListener("click", () => loadDefaultFile());
-  sidebar.appendChild(defaultCollection);
+  saved_collections.appendChild(defaultCollection);
 
   for (let i = 0; i < localStorage.length; i++) {
     const collectionName = localStorage.key(i);
@@ -144,7 +144,7 @@ function updateSidebar() {
     collectionItem.textContent = collectionName;
     collectionItem.classList.add("collection-item");
     collectionItem.addEventListener("click", () => loadFlashcards(collectionName));
-    sidebar.appendChild(collectionItem);
+    saved_collections.appendChild(collectionItem);
   }
 }
 
